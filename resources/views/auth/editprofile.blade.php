@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if (session('status'))
+                <div class="alert alert-{{ session('status')['type'] }}">
+                    {{ session('status')['message'] }}
+                </div>
+            @endif
            <div class="card">
                <div class="card-body">
                 <form method="POST" action="{{ route('update-profile') }}" enctype="multipart/form-data">

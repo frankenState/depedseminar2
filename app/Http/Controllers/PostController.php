@@ -78,6 +78,15 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+
+        if ($post->user_id != Auth::user()->id)
+            return redirect()
+                ->route('posts.index')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "You don't have permission for this action."
+                ]);
+
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -99,7 +108,7 @@ class PostController extends Controller
 
         if ($post->user_id != Auth::user()->id)
             return redirect()
-                ->route('posts.edit')
+                ->route('posts.index')
                 ->with('status', [
                     'type' => 'danger',
                     'message' => "You don't have permission for this action."
@@ -110,7 +119,7 @@ class PostController extends Controller
         $post->save();
 
         return redirect()
-            ->route('posts.edit')
+            ->route('posts.edit', ['id' => $post->id])
             ->with('status', [
                 'type' => 'success',
                 'message' => 'Post update is successful.'

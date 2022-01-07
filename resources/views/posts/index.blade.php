@@ -20,10 +20,10 @@
                       {{ $post->body }}
                       <small>{{ $post->created_at }} posted by {{ "{$post->user->first_name} {$post->user->last_name}" }}</small>
                       @if (Auth::user()->id == $post->user_id)
-                      <div class="btn-group btn-sm">
-                        <a class="btn btn-outline-primary btn-sm" href="{{ route('posts.edit', ['id' => $post->id ]) }}">Edit</a>
-                        <a class="btn btn-outline-danger btn-sm" href="{{ route('posts.delete', ['id' => $post->id ]) }}">Delete</a>
-                      </div>
+                        <div class="btn-group btn-sm">
+                            <a class="btn btn-outline-primary btn-sm" href="{{ route('posts.edit', ['id' => $post->id ]) }}">Edit</a>
+                            <a class="btn btn-outline-danger btn-sm" href="{{ route('posts.delete', ['id' => $post->id ]) }}">Delete</a>
+                        </div>
                       @endif
                     </div>
                   </div>

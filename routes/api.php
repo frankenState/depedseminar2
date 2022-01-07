@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,15 @@ use App\Http\Controllers\API\PostController;
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{id}', [PostController::class, 'show']);
 Route::get('/posts/search/{title}', [PostController::class, 'search']);
-Route::post('/post', [PostController::class, 'store']);
-Route::put('/post/{id}', [PostController::class, 'update']);
-Route::delete('/post/{id}', [PostController::class, 'delete']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::post('/post', [PostController::class, 'store']);
+    Route::put('/post/{id}', [PostController::class, 'update']);
+    Route::delete('/post/{id}', [PostController::class, 'delete']);
+    Route::post('/logout', [ AuthController::class, 'logout']);
+});
 
 
 

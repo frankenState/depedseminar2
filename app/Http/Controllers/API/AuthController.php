@@ -35,4 +35,31 @@ class AuthController extends Controller
             'token' => $token
         ], 201);
     }
+
+    public function login(Request $request){
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8'
+        ]);
+
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user || !Hash::check($data['password'], $user->password))
+            return response(
+                ['message' => 'Invalid email or password.'],
+                401
+            );
+
+        $token = $user->createToken('AVerySecureToken')->plainTextToken;
+
+        return response([
+            'user' => $user,
+            'token' => $token
+        ], 201);
+    }
+
+    public function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return ['message' => 'Logged out'];
+    }
 }

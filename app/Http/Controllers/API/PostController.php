@@ -38,6 +38,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'user_id' => 'required',
             'title' => 'required|string',
             'body' => 'required|string'
         ]);
@@ -45,6 +46,7 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $data['title'];
         $post->body = $data['body'];
+        $post->user_id = $data['user_id'];
         $post->save();
 
         return response($post, 201);

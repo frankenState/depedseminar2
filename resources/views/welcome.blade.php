@@ -37,7 +37,10 @@
     }
 
     window.onload = () => {
-        fetchPost();
+        setInterval(() => {
+            fetchPost();
+        }, 2000);
     };
+
 </script>
 @endsection

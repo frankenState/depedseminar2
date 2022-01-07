@@ -5,6 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1 class="display-4">New Post</h1>
+
+            @if (session('status'))
+                <div class="alert alert-{{ session('status')['type'] }}">
+                    {{ session('status')['message'] }}
+                </div>
+            @endif
             <form action="{{ route('posts.save') }}" method="POST">
                 @csrf
                 <div class="form-group mb-2">

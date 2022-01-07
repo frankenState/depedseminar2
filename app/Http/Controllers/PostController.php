@@ -48,7 +48,7 @@ class PostController extends Controller
         $post->save();
 
         return redirect()
-            ->route('post.create')
+            ->route('posts.create')
             ->with('status', [
                 'type' => 'success',
                 'message' => 'Post created successfully.'
@@ -109,7 +109,7 @@ class PostController extends Controller
         $post->save();
 
         return redirect()
-            ->route('post.edit')
+            ->route('posts.edit')
             ->with('status', [
                 'type' => 'success',
                 'message' => 'Post update is successful.'

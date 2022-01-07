@@ -17,9 +17,8 @@ use App\Http\Controllers\API\PostController;
 
 // http://127.0.0.1:8000/api/posts
 Route::get('/posts', [PostController::class, 'index']);
-// http://127.0.0.1:8000/api/posts/{id}
 Route::get('/posts/{id}', [PostController::class, 'show']);
-Route::get('/posts/{title}', [PostController::class, 'search']);
+Route::get('/posts/search/{title}', [PostController::class, 'search']);
 Route::post('/post', [PostController::class, 'store']);
 Route::put('/post/{id}', [PostController::class, 'update']);
 Route::delete('/post/{id}', [PostController::class, 'delete']);

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +21,14 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::prefix('posts')->group(function(){
+    Route::get('/', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::post('/', [PostController::class, 'store'])->name('posts.save');
+    Route::get('/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/delete/{id}', [PostController::class, 'destroy'])->name('posts.index');
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function(){
-    return 'laravel-api-worked';
-});
+// http://127.0.0.1:8000/api/posts
+Route::get('/posts', [PostController::class, 'index']);
+// http://127.0.0.1:8000/api/posts/{id}
+Route::get('/posts/{id}', [PostController::class, 'show']);
+Route::get('/posts/{title}', [PostController::class, 'search']);
+Route::post('/post', [PostController::class, 'store']);
+Route::put('/post/{id}', [PostController::class, 'update']);
+Route::delete('/post/{id}', [PostController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

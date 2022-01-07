@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::with('users')->get();
+        return Post::with('user')->get();
     }
 
     /**
@@ -58,7 +58,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return Post::find($id);
+        return Post::with('user')
+            ->where('id', $id)
+            ->first();
     }
 
     /**
@@ -103,5 +105,11 @@ class PostController extends Controller
     public function destroy($id)
     {
         return Post::destroy($id);
+    }
+
+    public function search($title){
+        return Post::with('user')
+            ->where('title', 'like', "%$title%")
+            ->get();
     }
 }

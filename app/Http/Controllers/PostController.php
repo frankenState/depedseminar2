@@ -61,9 +61,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        return Post::with('user')
+            ->where('id', $id)
+            ->first();
     }
 
     /**
@@ -72,9 +74,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -84,9 +87,33 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string'
+        ]);
+
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id != Auth::user()->id)
+            return redirect()
+                ->route('posts.edit')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "You don't have permission for this action."
+                ]);
+
+        $post->title = $data['title'];
+        $post->body = $data['body'];
+        $post->save();
+
+        return redirect()
+            ->route('post.edit')
+            ->with('status', [
+                'type' => 'success',
+                'message' => 'Post update is successful.'
+            ]);
     }
 
     /**
@@ -95,8 +122,21 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $status = Post::destroy($id);
+
+        if ($status)
+            return redirect()->route('posts.index')
+                ->with('status', [
+                    'type' => 'success',
+                    'message' => 'Post deleted successfully.'
+                ]);
+
+        return redirect()->route('posts.index')
+            ->with('status', [
+                'type' => 'danger',
+                'message' => 'Something went wrong.'
+            ]);
     }
 }

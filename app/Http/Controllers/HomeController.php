@@ -41,7 +41,7 @@ class HomeController extends Controller
             'last_name' => 'required|string|max:255',
             'bio' => 'required|string',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:2048',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
         ]);
         
         $user = User::find(Auth::user()->id);

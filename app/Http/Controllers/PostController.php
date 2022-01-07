@@ -125,7 +125,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $status = Post::destroy($id);
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id != Auth::user()->id)
+            return redirect()->route('posts.index')
+                ->with('status', [
+                    'type' => 'danger',
+                    'message' => "You don't have permission for this action."
+                ]);
+        // Post::destroy($id);
+        $status = $post->delete();
 
         if ($status)
             return redirect()->route('posts.index')

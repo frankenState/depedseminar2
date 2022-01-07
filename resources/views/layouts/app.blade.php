@@ -58,6 +58,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="{{ route('posts.index') }}" class="dropdown-item">All Posts</a>
                                     <a href="{{ route('posts.create') }}" class="dropdown-item">New Post</a>
                                     <a href="{{ route('edit-profile') }}" class="dropdown-item">Edit Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
